@@ -5,9 +5,22 @@
     --hover: #0db75fac;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  
+
+html {
+    scroll-behavior: smooth;
+    font-family: Verdana;
+}
+
 body {
     font-family: Verdana;
     background-color: var(--white);
+    line-height: 1.7;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -22,6 +35,14 @@ a {
 
 a:hover {
     color: var(--brand);
+}
+
+ul {
+    text-decoration: none;
+}
+  
+li {
+    list-style-type: none;
 }
   
 
