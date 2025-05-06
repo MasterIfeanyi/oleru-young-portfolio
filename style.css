@@ -2,6 +2,7 @@
     --white: white;
     --black: black;
     --brand: #0DB75F;
+    --hover: #0db75fac;
 }
 
 body {
@@ -62,5 +63,17 @@ section {
 }
 
 .btn-outline-brand {
-    
+    background-color: transparent;
+    border-color: var(--brand);
+    color: var(--brand);
+}
+
+.btn-outline-brand:hover {
+    background-color: var(--brand);
+    color: #fff;
+}
+
+.btn-brand:hover {
+    background-color: var(--hover);
+    color: #fff;
 }
