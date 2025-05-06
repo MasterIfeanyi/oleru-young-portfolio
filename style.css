@@ -99,13 +99,13 @@ section {
     color: #fff;
 }
 
-#hero {
+.person-img {
     position: relative;
 }
 
 #hero .square-top {
-    width: 70%;
-    height: 70%;
+    width: 90%;
+    height: 100%;
     background: var(--brand);
     position: absolute;
     top: -10%;
@@ -114,8 +114,8 @@ section {
 }
 
 #hero .square-bottom {
-    width: 40%;
-    height: 40%;
+    width: 90%;
+    height: 90%;
     background: transparent;
     border: 2px solid black;
     position: absolute;
