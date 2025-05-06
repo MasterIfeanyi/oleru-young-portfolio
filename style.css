@@ -98,3 +98,28 @@ section {
     background-color: var(--hover);
     color: #fff;
 }
+
+#hero {
+    position: relative;
+}
+
+#hero .square-top {
+    width: 70%;
+    height: 70%;
+    background: var(--brand);
+    position: absolute;
+    top: -10%;
+    right: 0;
+    z-index: -1;
+}
+
+#hero .square-bottom {
+    width: 40%;
+    height: 40%;
+    background: transparent;
+    border: 2px solid black;
+    position: absolute;
+    bottom: -5%;
+    left: 0;
+    z-index: -1;
+}
