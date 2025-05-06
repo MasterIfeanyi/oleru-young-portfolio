@@ -1,11 +1,11 @@
 :root {
     --white: white;
     --black: black;
-    --brand: 
+    --brand: #0DB75F;
 }
 
 body {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: Verdana;
     background-color: var(--white);
 }
 
@@ -23,3 +23,44 @@ a:hover {
     color: var(--brand);
 }
   
+
+img {
+    width: 100%;
+}
+  
+section {
+    padding-top: 90px;
+    padding-bottom: 90px;
+}
+  
+.navbar-nav .nav-link:hover {
+    color: var(--brand);
+}
+
+.navbar-nav .nav-link.active {
+    color: var(--brand);
+}
+
+.text-brand {
+    color: var(--brand);
+}
+
+/* Button */
+
+.btn {
+    padding: 14px 27px;
+    margin: 0px 16px 0px 0px;
+    border-radius: 12px;
+    font-weight: 500;
+    transition: all 1s ease;
+}
+
+.btn-brand {
+    background-color: var(--brand);
+    border-color: 1px solid var(--brand);
+    color: #fff;
+}
+
+.btn-outline-brand {
+    
+}
