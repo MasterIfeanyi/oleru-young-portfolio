@@ -232,15 +232,13 @@ img {
     align-items: center;
     border-right: 4px solid var(--brand);
     margin-bottom: 0;
+    padding: 0;
 }
 
 .review-card:first-child {
     justify-content: flex-start;
 }
 
-.reviews {
-    margin-bottom: 0;
-}
 
 @media(max-width: 760px) {
     .review-card {
