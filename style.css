@@ -255,15 +255,16 @@ img {
     background-color: var(--brand);
     color: white;
     /* border-radius: var(--border-radius); */
-    margin: auto;
+    margin-left: 0;
+    margin-bottom: 10px;
     font-size: 26px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .iconbox i {
     font-size: 24px;
     color: white;
-    z-index: 2999;
+
 }
