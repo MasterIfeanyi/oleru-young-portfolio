@@ -247,3 +247,23 @@ img {
         border: none;
     }
 }
+
+/* iconbox */
+.iconbox{
+    width:26px;
+    height:26px;
+    background-color: var(--brand);
+    color: white;
+    /* border-radius: var(--border-radius); */
+    margin: auto;
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.iconbox i {
+    font-size: 24px;
+    color: white;
+    z-index: 2999;
+}
