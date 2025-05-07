@@ -229,8 +229,13 @@ img {
 .review-card {
     display: flex;
     justify-content: center;
+    align-items: center;
     border-right: 4px solid var(--brand);
     margin-bottom: 0;
+}
+
+.review-card:first-child {
+    justify-content: flex-start;
 }
 
 .reviews {
