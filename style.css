@@ -268,3 +268,11 @@ img {
     color: white;
 
 }
+
+/* Hero */
+#linkarrow i {
+    transition: all 1s ease;
+}
+#linkarrow:hover i {
+    transform: translate(5px, -5px);
+}
