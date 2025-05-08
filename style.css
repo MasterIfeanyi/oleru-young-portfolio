@@ -308,6 +308,7 @@ img {
 .reviews {
     padding: 28px 16px;
     background-color: white;
+    border-radius: 32px;
 }
 
 .user-info img{
@@ -322,4 +323,8 @@ img {
 .user-details {
     margin: 0;
     padding: 0;
+}
+
+#reviews-cont {
+    background-color: whitesmoke;
 }
