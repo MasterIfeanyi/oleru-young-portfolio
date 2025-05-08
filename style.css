@@ -296,6 +296,7 @@ img {
     width: max-content;
     font-size: 12px;
     border: 1px solid var(--brand);
+    display: inline-block;
 }
 
 
@@ -335,4 +336,8 @@ img {
     width: 100%;
     margin: 0 auto;
     text-align: center;
+}
+
+#contact-cta {
+    margin: 0 auto 1rem auto;
 }
