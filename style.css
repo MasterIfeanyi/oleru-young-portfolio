@@ -305,14 +305,21 @@ img {
     color: goldenrod;
 }
 
-.user-info {
+.reviews {
     padding: 28px 16px;
     background-color: white;
 }
 
 .user-info img{
-    width: 40px;
-    height: 40px;
+    width: 100px;
+    height: 100px;
     object-fit: contain;
-    border-radius: 50%;
+    border-radius: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.user-details {
+    margin: 0;
+    padding: 0;
 }
