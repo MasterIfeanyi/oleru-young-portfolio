@@ -286,3 +286,13 @@ img {
     /* width: 50%;
     height: 50%; */
 }
+
+.text-design {
+    padding: 8px 8px;
+    margin: 0px 16px 0px 0px;
+    border-radius: 12px;
+    font-weight: 500;
+    transition: all 1s ease;
+    width: max-content;
+    font-size: 12px;
+}
