@@ -1,5 +1,5 @@
 // portfolio
-$('#tech-carousel').owlCarousel({
+$('#reviews-carousel').owlCarousel({
     loop:true,
     margin:48,
     dots:true,
@@ -17,7 +17,7 @@ $('#tech-carousel').owlCarousel({
             items:2
         },
         1000:{
-            items: 3
+            items: 2
         }
     }
 })
