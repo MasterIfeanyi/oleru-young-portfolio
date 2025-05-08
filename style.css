@@ -232,7 +232,7 @@ img {
     align-items: center;
     border-right: 4px solid var(--brand);
     margin-bottom: 0;
-    padding: 0;
+    padding: 10px;
 }
 
 .review-card:first-child {
