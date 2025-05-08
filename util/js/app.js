@@ -30,7 +30,7 @@ $('#tech-carousel').owlCarousel({
 // Reviews
 $('#why-carousel').owlCarousel({
     loop:true,
-    margin:28,
+    margin:8,
     dots: false,
     nav: false,
     smartSpeed: 1000,
