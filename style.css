@@ -276,3 +276,13 @@ img {
 #linkarrow:hover i {
     transform: translate(5px, -5px);
 }
+
+
+/* freelance project */
+.whySwipe {
+    padding: 19px 28px;
+    border-radius: 30px;
+    position: relative;
+    /* width: 50%;
+    height: 50%; */
+}
