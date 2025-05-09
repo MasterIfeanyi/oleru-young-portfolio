@@ -252,8 +252,8 @@ img {
 .iconbox{
     width:26px;
     height:26px;
-    background-color: var(--brand);
-    color: white;
+    /* background-color: var(--brand); */
+    color: var(--brand);
     /* border-radius: var(--border-radius); */
     margin-left: 0;
     margin-bottom: 10px;
@@ -265,8 +265,7 @@ img {
 
 .iconbox i {
     font-size: 24px;
-    color: white;
-
+    /* color: white; */
 }
 
 /* Hero */
