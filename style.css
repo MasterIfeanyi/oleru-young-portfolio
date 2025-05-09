@@ -341,3 +341,14 @@ img {
 #contact-cta {
     margin: 0 auto 1rem auto;
 }
+
+.contactbox {
+    font-size: 42px;
+    color: var(--brand);
+}
+
+.contact-card {
+    padding: 8px 16px;
+    background-color: white;
+    border-radius: 32px;
+}
