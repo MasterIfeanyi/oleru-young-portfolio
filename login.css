@@ -1,0 +1,112 @@
+:root {
+    --white: white;
+    --black: black;
+    --brand: #0DB75F;
+    --hover: #0db75fac;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  
+
+html {
+    scroll-behavior: smooth;
+    font-family: Verdana;
+}
+
+body {
+    font-family: Verdana;
+    background-color: var(--white);
+    line-height: 1.7;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
+
+a {
+    transition: all 0.4s ease;
+    text-decoration: none;
+    color: var(--black);
+}
+
+a:hover {
+    color: var(--brand);
+}
+
+ul {
+    text-decoration: none;
+}
+  
+li {
+    list-style-type: none;
+}
+  
+
+img {
+    width: 100%;
+}
+  
+.section {
+    padding-top: 90px;
+    padding-bottom: 90px;
+}
+
+
+/* Button */
+
+.btn {
+    padding: 14px 27px;
+    margin: 0px 16px 0px 0px;
+    border-radius: 12px;
+    font-weight: 500;
+    transition: all 1s ease;
+}
+
+.btn-brand {
+    background-color: var(--brand);
+    border-color: 1px solid var(--brand);
+    color: #fff;
+}
+
+.btn-outline-brand {
+    background-color: transparent;
+    border-color: var(--brand);
+    color: var(--brand);
+}
+
+.btn-outline-brand:hover {
+    background-color: var(--brand);
+    color: #fff;
+}
+
+.btn-brand:hover {
+    background-color: var(--hover);
+    color: #fff;
+}
+
+.form-wrapper .form-control {
+    box-shadow: none;
+}
+
+
+.form-wrapper .form-control:focus {
+  border-color: #495057;
+  outline: none;
+  box-shadow: none !important; /* removes the "Bootstrap hue" */
+}
+
+
+/* .form-wrapper .input-group-text {
+    background-color: transparent;
+    border: none;
+    font-size: 1.25rem;
+    color: #6c757d;
+} */
+
+.form-wrapper .input-group {
+    margin-bottom: 1rem;
+}
