@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property='og:title' content='Oleru Young portfolio'/>
+    <meta property='og:image:width' content='1200'/>
+    <meta property='og:image:height' content='627'/>
+    <meta property="og:type" content="website" />
+    <meta name="author" content="Oleru Young">
+    <meta property="og:description" content="This is the portfolio website of Oleru Young, a graphic designer with over 3 years of cumulative experience in making premium designs" />
+    <title>Young Agency</title>
+    <link rel="stylesheet" href="./util/css/bootstrap.css">
+    <link rel="stylesheet" href="./util/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="./util/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="./remixicons/fonts/remixicon.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+    <section class="section">
+        <div class="container">
+            <h1 class="text-center mt-5">Welcome to the Dashboard</h1>
+            <!-- <div class="row">
+            </div> -->
+
+
+            <form action="" class="row mt-2 mb-2 justify-content-center align-items-center">
+
+                <div class="col-lg-7 form-wrapper">
+                    <div class="input-group">
+                        <input 
+                            type="text"
+                            class="form-control py-3"
+                            id="title" 
+                            placeholder='Enter A Title'
+                            required
+                        >
+                    </div>
+
+                    <div class="input-group">
+                        <label class="upload-box">
+                            Click to upload a file
+                            <input type="file" accept="image/*" onchange="previewImage(event)" />
+                        </label>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-brand w-100">Submit</button>
+
+                </div>
+            </form>
+
+            <div class="preview" id="imagePreview">
+                <span>No preview</span>
+            </div>
+
+        </div>
+
+    </section>
+    
+
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+        import {getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+        // Your Firebase config (replace with your own values)
+        const firebaseConfig = {
+        apiKey: "AIzaSyAYrgz9-LLhatfGSeP7iRJsFz1AVF5onpI",
+        authDomain: "oleru-young.firebaseapp.com",
+        projectId: "oleru-young",
+        storageBucket: "oleru-young.firebasestorage.app",
+        messagingSenderId: "416968907489",
+        appId: "1:416968907489:web:38b922f619fe2b003075a0"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, user => {
+            if (!user) {
+            // User is not logged in
+            window.location.href = "login.html"; // redirect to login page
+            } else {
+            console.log("Welcome:", user.email);
+            }
+        });
+
+        function previewImage(event) {
+        const preview = document.getElementById('imagePreview');
+        const file = event.target.files[0];
+
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                console.log("here");
+                reader.onload = function(e) {
+                preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = `<span>No preview</span>`;
+            }
+        }
+
+        window.previewImage = previewImage;
+    </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+.upload-box {
+  display: inline-block;
+  width: 100%;
+  height: 150px; /* Match typical <textarea> height */
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 150px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #555;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s;
+}
+.upload-box:hover {
+  background-color: #eee;
+}
+.upload-box input[type="file"] {
+  display: none;
+}
+
+.input-group {
+    margin: 1rem 0;
+}
+
+.preview {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /* overflow: hidden; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+:root {
+    --white: white;
+    --black: black;
+    --brand: #0DB75F;
+    --hover: #0db75fac;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  
+
+html {
+    scroll-behavior: smooth;
+    font-family: Verdana;
+}
+
+body {
+    font-family: Verdana;
+    background-color: var(--white);
+    line-height: 1.7;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
+
+a {
+    transition: all 0.4s ease;
+    text-decoration: none;
+    color: var(--black);
+}
+
+a:hover {
+    color: var(--brand);
+}
+
+ul {
+    text-decoration: none;
+}
+  
+li {
+    list-style-type: none;
+}
+  
+
+img {
+    width: 100%;
+}
+  
+.section {
+    padding-top: 90px;
+    padding-bottom: 90px;
+}
+
+
+/* Button */
+
+.btn {
+    padding: 14px 27px;
+    margin: 0px 16px 0px 0px;
+    border-radius: 12px;
+    font-weight: 500;
+    transition: all 1s ease;
+}
+
+.btn-brand {
+    background-color: var(--brand);
+    border-color: 1px solid var(--brand);
+    color: #fff;
+}
+
+.btn-outline-brand {
+    background-color: transparent;
+    border-color: var(--brand);
+    color: var(--brand);
+}
+
+.btn-outline-brand:hover {
+    background-color: var(--brand);
+    color: #fff;
+}
+
+.btn-brand:hover {
+    background-color: var(--hover);
+    color: #fff;
+}
