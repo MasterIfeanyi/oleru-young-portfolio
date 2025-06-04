@@ -60,8 +60,22 @@ window.previewImage = previewImage;
 
 const title = document.getElementById("title").value;
 const imageUploader = document.getElementById("photo");
+const statusMessage = document.getElementById('statusMessage');
 
 let selectedFile = null;
+let url;
+const timestamp = Date.now();
+
+
+function showStatusMessage(message, type) {
+    statusMessage.textContent = message;
+    statusMessage.className = `status-message status-${type}`;
+    statusMessage.style.display = 'block';
+}
+
+function hideStatusMessage() {
+    statusMessage.style.display = 'none';
+}
 
 // Upload
 const uploadForm = document.getElementById("upload-form");
@@ -78,18 +92,31 @@ uploadForm.addEventListener("submit", async (e) => {
         return;
     }
 
-    let url;
 
     if (file && file.type.startsWith('image/')) {
 
         selectedFile = file;
 
+        hideStatusMessage();
 
         const storage = getStorage(app);
         const storageRef = ref(storage, 'uploads/' + file.name);
         const snapshot = await uploadBytes(storageRef, file);
         url = await getDownloadURL(snapshot.ref);
         console.log("File uploaded successfully:", url);
+
+        // Store image data in localStorage
+        const imageData = {
+            url,
+            filename: file.name,
+            uploadTime: new Date().toISOString(),
+            id: timestamp.toString()
+        };
+        
+        localStorage.setItem('uploadedImage', JSON.stringify(imageData));
+
+        showStatusMessage('Image uploaded successfully!', 'success');
+
     }
 
     await addDoc(collection(db, "photos"), {
@@ -98,6 +125,7 @@ uploadForm.addEventListener("submit", async (e) => {
 
     uploadForm.reset();
 
+    window.location.replace("index.html")
     
 });
 
