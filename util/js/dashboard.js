@@ -58,23 +58,33 @@ function previewImage(event) {
 
 window.previewImage = previewImage;
 
+const title = document.getElementById("title").value;
+const imageUploader = document.getElementById("photo");
+
+let selectedFile = null;
+
 // Upload
 const uploadForm = document.getElementById("upload-form");
 
 uploadForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const title = document.getElementById("title").value;
-    const file = document.getElementById("photo").files[0];
+    const file = imageUploader.files[0];
+
 
     if (!file) {
         console.error("Please select a file.");
+        showStatusMessage('Please select an image first', 'error');
         return;
     }
 
     let url;
 
-     if (file) {
+    if (file && file.type.startsWith('image/')) {
+
+        selectedFile = file;
+
+
         const storage = getStorage(app);
         const storageRef = ref(storage, 'uploads/' + file.name);
         const snapshot = await uploadBytes(storageRef, file);
@@ -90,3 +100,7 @@ uploadForm.addEventListener("submit", async (e) => {
 
     
 });
+
+
+
+
