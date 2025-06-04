@@ -8,7 +8,7 @@ Refused to apply style from 'http://127.0.0.1:5500/styles.css' because its MIME 
 ```
 
 
-### Solution
+###### Solution
 
 I mis-spelled `style.css`
 
@@ -18,7 +18,7 @@ I mis-spelled `style.css`
 how to get facebook logo from remix-icon
 
 
-### Solution 
+###### Solution 
 
 - Facebook: Use `ri-facebook-fill` or `ri-facebook-line`
 - Twitter: Use `ri-twitter-fill` or `ri-twitter-line`.
@@ -30,7 +30,7 @@ how to get facebook logo from remix-icon
 
 how do I make the first review-card align to the left while the others align in the center
 
-### Solution
+###### Solution
 
 Use the `:first-child` pseudo-class to target the first .review-card
 
@@ -46,7 +46,7 @@ Use the `:first-child` pseudo-class to target the first .review-card
 
 how do I add bootstrap scrollspy for the body
 
-### Solution 
+###### Solution 
 
 ``` 
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50" tabindex="0">
@@ -60,7 +60,7 @@ Access to XMLHttpRequest at 'https://firebasestorage.googleapis.com/...' from or
 
 ```
 
-###### interpretation
+###### Interpretation
 
 The error you're encountering, means Firebase is rejecting the cross-origin request due to CORS (Cross-Origin Resource Sharing) settings.
 
@@ -75,7 +75,7 @@ Firebase checks CORS rules before allowing a request, and right now:
 
 - So your browser blocks the main request.
 
-###### solution
+###### Solution
 
 1. Use Firebase SDK Instead of Direct XMLHttpRequest
 
@@ -90,19 +90,60 @@ If you’re using pure HTML/JS, you should use Firebase's JavaScript SDK. **It h
 2. Configure CORS in Firebase Storage Manually
 
 
-```javascript
-// Install the Firebase CLI:
+```bash
+# Install the Firebase CLI:
 npm install -g firebase-tools
-```
 
-```javascript
-// Log in
+# Log in
 firebase login
-```
 
-```javascript
-// initialise firebase
+# initialise firebase
 firebase init
+
 ```
 
+**Create a CORS config file (e.g., cors.json):**
+
+Create a JSON file named cors.json with the following content. This file specifies the CORS configuration for your Firebase Storage bucket.
+
+```json
+
+[
+  {
+    "origin": ["http://127.0.0.1:5500"],
+    "method": ["GET", "POST", "PUT"],
+    "maxAgeSeconds": 3600,
+    "responseHeader": ["Content-Type"]
+  }
+]
+```
+
+> You have to install [Google cloud SDK](https://cloud.google.com/sdk/docs/install)
+
+**Deploy the CORS config:**
+```
+gsutil cors set cors.json gs://oleru-young.appspot.com
+
+```
+
+### Google Cloud
+
+Download Google Cloud CLI from this [Google cloud SDK](https://cloud.google.com/sdk/docs/install)
+
+
+**Authenticate gsutil**
+
+```
+gsutil config
+```
+
+Follow the prompts to authenticate with your Google Cloud account
+
+**Set CORS for Your Firebase Storage Bucket**
+
+Navigate to the directory where your cors.json file is located and run the following command to apply the CORS settings to your Firebase Storage bucket:
+
+```
+gsutil cors set cors.json gs://oleru-young.firebasestorage.app
+```
 
