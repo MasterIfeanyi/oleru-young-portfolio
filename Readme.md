@@ -52,3 +52,57 @@ how do I add bootstrap scrollspy for the body
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50" tabindex="0">
 ```
 
+### Problem 5
+
+```javascript
+
+Access to XMLHttpRequest at 'https://firebasestorage.googleapis.com/...' from origin 'http://127.0.0.1:5500' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: It does not have HTTP ok status.
+
+```
+
+###### interpretation
+
+The error you're encountering, means Firebase is rejecting the cross-origin request due to CORS (Cross-Origin Resource Sharing) settings.
+
+> You're trying to make a cross-origin XMLHttpRequest or fetch() call from your local development server (127.0.0.1:5500) to Firebase Storage (firebasestorage.googleapis.com), but Firebase is not configured to allow that type of request by default — especially PUT, POST, or DELETE, or when sending custom headers.
+Firebase checks CORS rules before allowing a request
+
+Firebase checks CORS rules before allowing a request, and right now:
+
+- Your request is triggering a CORS preflight request (a special OPTIONS request sent by the browser before the actual request).
+
+- Firebase responds to that preflight with a status other than 200 OK.
+
+- So your browser blocks the main request.
+
+###### solution
+
+1. Use Firebase SDK Instead of Direct XMLHttpRequest
+
+If you’re using pure HTML/JS, you should use Firebase's JavaScript SDK. **It handles CORS for you.**
+
+```javascript
+<!-- Include Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js"></script>
+```
+
+2. Configure CORS in Firebase Storage Manually
+
+
+```javascript
+// Install the Firebase CLI:
+npm install -g firebase-tools
+```
+
+```javascript
+// Log in
+firebase login
+```
+
+```javascript
+// initialise firebase
+firebase init
+```
+
+

@@ -4,5 +4,8 @@
     "location": "africa-south1",
     "rules": "CORS.json",
     "indexes": "firestore.indexes.json"
+  },
+  "storage": {
+    "rules": "storage.rules"
   }
 }

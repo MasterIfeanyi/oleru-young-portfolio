@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-import {getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+import {getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 
 import {
   getFirestore, collection, addDoc, getDocs
@@ -26,7 +26,7 @@ const firebaseConfig = {
 // initialize firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+const db = getFirestore(app, "photosdb");
 
 
 // auth check
@@ -72,17 +72,25 @@ uploadForm.addEventListener("submit", async (e) => {
         return;
     }
 
-    if (file) {
-        const storage = getStorage(app);
-        const storageRef = ref(storage, 'uploads/' + file.name);
-        const snapshot = await uploadBytes(storageRef, file);
-        const url = await getDownloadURL(snapshot.ref);
-        console.log("File uploaded successfully:", url);
-    }
 
-    await addDoc(collection(db, "photos"), {
-      title, url, createdAt: new Date()
-    });
+    // Read file as base64
+    const reader = new FileReader();
+    reader.onloadend = async function () {
+        const base64Image = reader.result;
 
-    uploadForm.reset();
+        // Store in Firestore
+        try {
+            await addDoc(collection(db, "photos"), {
+                title,
+                imageBase64: base64Image,
+                createdAt: new Date()
+            });
+            console.log("Image uploaded to Firestore.");
+            uploadForm.reset();
+            document.getElementById('imagePreview').innerHTML = `<span>No preview</span>`;
+        } catch (error) {
+            console.error("Error uploading image:", error);
+        }
+    };
+    reader.readAsDataURL(file);
 });
