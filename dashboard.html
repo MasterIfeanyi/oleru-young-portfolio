@@ -25,7 +25,7 @@
             </div> -->
 
 
-            <form action="" class="row mt-2 mb-2 justify-content-center align-items-center">
+            <form action="" class="row mt-2 mb-2 justify-content-center align-items-center" id="upload-form">
 
                 <div class="col-lg-7 form-wrapper">
                     <div class="input-group">
@@ -41,7 +41,7 @@
                     <div class="input-group">
                         <label class="upload-box">
                             Click to upload a file
-                            <input type="file" accept="image/*" onchange="previewImage(event)" />
+                            <input id="photo" type="file" accept="image/*" onchange="previewImage(event)" />
                         </label>
                     </div>
 
@@ -60,50 +60,9 @@
     </section>
     
 
-    <script type="module">
+    <script type="module" defer src="./util/js/dashboard.js">
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-        import {getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
-
-        // Your Firebase config (replace with your own values)
-        const firebaseConfig = {
-        apiKey: "AIzaSyAYrgz9-LLhatfGSeP7iRJsFz1AVF5onpI",
-        authDomain: "oleru-young.firebaseapp.com",
-        projectId: "oleru-young",
-        storageBucket: "oleru-young.firebasestorage.app",
-        messagingSenderId: "416968907489",
-        appId: "1:416968907489:web:38b922f619fe2b003075a0"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        onAuthStateChanged(auth, user => {
-            if (!user) {
-            // User is not logged in
-            window.location.href = "login.html"; // redirect to login page
-            } else {
-            console.log("Welcome:", user.email);
-            }
-        });
-
-        function previewImage(event) {
-        const preview = document.getElementById('imagePreview');
-        const file = event.target.files[0];
-
-            if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                console.log("here");
-                reader.onload = function(e) {
-                preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
-                };
-                reader.readAsDataURL(file);
-            } else {
-                preview.innerHTML = `<span>No preview</span>`;
-            }
-        }
-
-        window.previewImage = previewImage;
+        
     </script>
 </body>
 </html>
