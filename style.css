@@ -368,3 +368,20 @@ img {
 .footer {
     padding: 4rem 0rem;
 }
+
+.two-col-grid{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.two-col-grid .img-div {
+    width: 500px;
+    height: auto;
+}
+
+@media (max-width: 992px){
+    .two-col-grid{
+        grid-template-columns: 1fr;
+    }
+}
