@@ -9,7 +9,11 @@ import {
   getStorage, ref, uploadBytes, getDownloadURL
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-storage.js";
 
-
+ 
+// DOM manipulation
+const uploadForm = document.getElementById("upload-form");
+const imageUploader = document.getElementById("photo");
+const statusMessage = document.getElementById('statusMessage');
 
 
 // Your Firebase config (replace with your own values)
@@ -26,18 +30,63 @@ const firebaseConfig = {
 // initialize firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app, "photosdb");
-
+const db = getFirestore(app);
+const storage = getStorage(app);
 
 // auth check
 onAuthStateChanged(auth, user => {
     if (!user) {
-    // User is not logged in
-    window.location.href = "login.html"; // redirect to login page
+        // User is not logged in
+        console.log("❌ User not authenticated, redirecting to login")
+        window.location.href = "login.html"; // redirect to login page
     } else {
-    console.log("Welcome:", user.email);
+        console.log("Welcome:", user.email);
+
+        // Test Firestore connection
+        testFirestoreConnection()
     }
 });
+
+
+
+
+
+
+// Test Firestore connection
+async function testFirestoreConnection() {
+  try {
+    console.log("🧪 Testing Firestore connection...")
+
+    // Try to create a test document
+    const testRef = collection(db, "connection-test")
+    const testDoc = await addDoc(testRef, {
+      test: true,
+      timestamp: new Date(),
+      userId: auth.currentUser?.uid || "anonymous",
+    })
+
+    console.log("✅ Firestore connection successful! Test doc ID:", testDoc.id)
+    return true
+  } catch (error) {
+    console.error("❌ Firestore connection failed:")
+    console.error("Error code:", error.code)
+    console.error("Error message:", error.message)
+
+    if (error.code === "permission-denied") {
+      showStatusMessage("Database permission denied. Please check Firestore rules.", "error")
+    } else if (error.code === "unavailable") {
+      showStatusMessage("Database service unavailable. Please try again later.", "error")
+    } else {
+      showStatusMessage("Database connection failed. Please refresh the page.", "error")
+    }
+
+    return false
+  }
+}
+
+
+
+
 
 // preview image
 function previewImage(event) {
@@ -46,9 +95,9 @@ function previewImage(event) {
 
     if (file && file.type.startsWith('image/')) {
         const reader = new FileReader();
-        console.log("here");
+
         reader.onload = function(e) {
-        preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+            preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
         };
         reader.readAsDataURL(file);
     } else {
@@ -58,9 +107,6 @@ function previewImage(event) {
 
 window.previewImage = previewImage;
 
-const title = document.getElementById("title").value;
-const imageUploader = document.getElementById("photo");
-const statusMessage = document.getElementById('statusMessage');
 
 let selectedFile = null;
 let url;
@@ -77,56 +123,95 @@ function hideStatusMessage() {
     statusMessage.style.display = 'none';
 }
 
-// Upload
-const uploadForm = document.getElementById("upload-form");
+
 
 uploadForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const file = imageUploader.files[0];
-
-
-    if (!file) {
-        console.error("Please select a file.");
-        showStatusMessage('Please select an image first', 'error');
-        return;
+    // Check authentication
+    const user = auth.currentUser
+    if (!user) {
+        showStatusMessage("Please log in to upload images", "error")
+        return
     }
 
+    try {
 
-    if (file && file.type.startsWith('image/')) {
+        // Get form data
+        const file = imageUploader.files[0];
+        const title = document.getElementById("title").value.trim();
 
-        selectedFile = file;
+        if (!title.trim()) {
+            showStatusMessage('Please enter a title.', 'error');
+            return;
+        }
 
-        hideStatusMessage();
 
-        const storage = getStorage(app);
-        const storageRef = ref(storage, 'uploads/' + file.name);
-        const snapshot = await uploadBytes(storageRef, file);
-        url = await getDownloadURL(snapshot.ref);
-        console.log("File uploaded successfully:", url);
+        if (!file) {
+            console.error("Please select a file.");
+            showStatusMessage('Please select an image first', 'error');
+            return;
+        }
 
-        // Store image data in localStorage
-        const imageData = {
-            url,
-            filename: file.name,
-            uploadTime: new Date().toISOString(),
-            id: timestamp.toString()
-        };
-        
-        localStorage.setItem('uploadedImage', JSON.stringify(imageData));
+        if (!file.type.startsWith("image/")) {
+            showStatusMessage("Please select a valid image file", "error")
+            return
+        }
 
-        showStatusMessage('Image uploaded successfully!', 'success');
+        hideStatusMessage()
 
+        if (file && file.type.startsWith('image/')) {
+
+            selectedFile = file;
+
+            hideStatusMessage();
+
+            
+            const storageRef = ref(storage, 'uploads/' + file.name);
+            const snapshot = await uploadBytes(storageRef, file);
+            url = await getDownloadURL(snapshot.ref);
+            console.log("File uploaded successfully:", url);
+
+            // Store image data in localStorage
+            const imageData = {
+                url,
+                filename: file.name,
+                uploadTime: new Date().toISOString(),
+                id: timestamp.toString()
+            };
+            
+
+            console.log("About to save to Firestore...");
+            await addDoc(collection(db, "uploadsdb"), {
+                title, url, createdAt: new Date()
+            });
+
+
+            localStorage.setItem('uploadedImage', JSON.stringify(imageData));
+
+            showStatusMessage('Image uploaded successfully!', 'success');
+
+            
+            console.log("Firestore save completed");
+
+            uploadForm.reset();
+            console.log("Form reset completed");
+
+
+
+            console.log("Redirecting now...");
+
+            // window.location.replace("index.html")
+
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 1000);
+        }
+
+    } catch (error) {
+        showStatusMessage(`Upload failed: ${error.message}`, `error`);
+        console.error(error);
     }
-
-    await addDoc(collection(db, "photos"), {
-      title, url, createdAt: new Date()
-    });
-
-    uploadForm.reset();
-
-    window.location.replace("index.html")
-    
 });
 
 
