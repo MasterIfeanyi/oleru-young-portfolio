@@ -33,6 +33,29 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+
+
+function showStatusMessage(message, type) {
+    statusMessage.textContent = message;
+    statusMessage.className = `status-message status-${type}`;
+    statusMessage.style.display = 'block';
+
+    // Auto-hide success messages after 3 seconds
+    if (type === "success") {
+        setTimeout(() => {
+        hideStatusMessage()
+        }, 3000)
+    }
+}
+
+function hideStatusMessage() {
+    statusMessage.style.display = 'none';
+}
+
+
+
+
+
 // auth check
 onAuthStateChanged(auth, user => {
     if (!user) {
@@ -46,8 +69,6 @@ onAuthStateChanged(auth, user => {
         testFirestoreConnection()
     }
 });
-
-
 
 
 
@@ -113,15 +134,6 @@ let url;
 const timestamp = Date.now();
 
 
-function showStatusMessage(message, type) {
-    statusMessage.textContent = message;
-    statusMessage.className = `status-message status-${type}`;
-    statusMessage.style.display = 'block';
-}
-
-function hideStatusMessage() {
-    statusMessage.style.display = 'none';
-}
 
 
 
@@ -158,14 +170,12 @@ uploadForm.addEventListener("submit", async (e) => {
             return
         }
 
-        hideStatusMessage()
 
         if (file && file.type.startsWith('image/')) {
 
             selectedFile = file;
 
             hideStatusMessage();
-
             
             const storageRef = ref(storage, 'uploads/' + file.name);
             const snapshot = await uploadBytes(storageRef, file);
@@ -181,10 +191,10 @@ uploadForm.addEventListener("submit", async (e) => {
             };
             
 
-            console.log("About to save to Firestore...");
-            await addDoc(collection(db, "uploadsdb"), {
-                title, url, createdAt: new Date()
-            });
+            // console.log("About to save to Firestore...");
+            // await addDoc(collection(db, "uploadsdb"), {
+            //     title, url, createdAt: new Date()
+            // });
 
 
             localStorage.setItem('uploadedImage', JSON.stringify(imageData));

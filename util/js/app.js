@@ -1,3 +1,47 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+import { getStorage, ref, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-storage.js";
+
+
+
+// Your Firebase config
+const firebaseConfig = {
+    apiKey: "AIzaSyAYrgz9-LLhatfGSeP7iRJsFz1AVF5onpI",
+    authDomain: "oleru-young.firebaseapp.com",
+    projectId: "oleru-young",
+    storageBucket: "oleru-young.appspot.com",
+    messagingSenderId: "416968907489",
+    appId: "1:416968907489:web:38b922f619fe2b003075a0"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+
+
+async function loadImagesToCarousel() {
+    const uploadsRef = ref(storage, 'uploads/');
+    const carousel = document.getElementById('tech-carousel');
+    carousel.innerHTML = ''; // Clear existing items
+
+
+    try {
+        const res = await listAll(uploadsRef);
+        for (const itemRef of res.items) {
+            const url = await getDownloadURL(itemRef);
+            const div = document.createElement('div');
+            div.className = 'two-col-grid';
+            div.innerHTML = `<div class="img-div"><img src="${url}" /></div>`;
+            carousel.appendChild(div);
+        }
+    } catch (error) {
+        console.error('Error loading images:', error);
+    }
+}
+
+
+loadImagesToCarousel();
+
+
 // portfolio
 $('#tech-carousel').owlCarousel({
     loop:true,
