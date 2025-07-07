@@ -21,25 +21,23 @@ const storage = getStorage(app);
 
 // Function to initialize Owl Carousel
 function initializeTechCarousel() {
-    // Destroy existing carousel if it exists
-    if (window.$ && $('#tech-carousel').hasClass('owl-carousel')) {
-        $('#tech-carousel').trigger('destroy.owl.carousel');
-        $('#tech-carousel').removeClass('owl-carousel owl-theme');
+    if (window.$ && typeof $('#tech-carousel').owlCarousel === 'function') {
+        $('#tech-carousel').owlCarousel('destroy'); // Destroy previous instance if any
+        $('#tech-carousel').owlCarousel({
+            loop: true,
+            margin: 48,
+            dots: true,
+            nav: false,
+            items: 1,
+            smartSpeed: 1000,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: true
+        });
     }
-
-    // Initialize new carousel
-    $('#tech-carousel').owlCarousel({
-        loop: true,
-        margin: 48,
-        dots: true,
-        nav: false,
-        items: 1,
-        smartSpeed: 1000,
-        autoplay: true,
-        autoplayTimeout: 5000,
-        autoplayHoverPause: true
-    });
 }
+
+
 
 
 async function loadImagesToCarousel() {
@@ -67,6 +65,10 @@ async function loadImagesToCarousel() {
             div.innerHTML = `<div class="img-div"><img src="${url}" /></div>`;
             carousel.appendChild(div);
         }
+
+
+        // Initialize Owl Carousel AFTER content is loaded
+        initializeTechCarousel();
 
     } catch (error) {
         console.error('Error loading images:', error);
