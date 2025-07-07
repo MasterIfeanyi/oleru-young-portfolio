@@ -24,8 +24,20 @@ async function loadImagesToCarousel() {
     carousel.innerHTML = ''; // Clear existing items
 
 
+    
+
+
     try {
         const res = await listAll(uploadsRef);
+
+        if (res.items.length === 0) {
+            console.warn('No images found in uploads folder');
+            carousel.innerHTML = '<p>No images available</p>';
+            return;
+        }
+
+
+
         for (const itemRef of res.items) {
             const url = await getDownloadURL(itemRef);
             const div = document.createElement('div');
@@ -33,6 +45,23 @@ async function loadImagesToCarousel() {
             div.innerHTML = `<div class="img-div"><img src="${url}" /></div>`;
             carousel.appendChild(div);
         }
+
+        // Re-initialize Owl Carousel if needed
+        if (window.$ && typeof $('#tech-carousel').owlCarousel === 'function') {
+            $('#tech-carousel').trigger('destroy.owl.carousel');
+            $('#tech-carousel').owlCarousel({
+                loop:true,
+                margin:48,
+                dots:true,
+                nav: false,
+                items: 1,
+                smartSpeed: 1000,
+                autoplay:true,
+                autoplayTimeout:5000,
+                autoplayHoverPause:true
+            });
+        }
+
     } catch (error) {
         console.error('Error loading images:', error);
     }
@@ -68,29 +97,7 @@ $('#tech-carousel').owlCarousel({
 
 
 
-// portfolio
-$('#reviews-carousel').owlCarousel({
-    loop:true,
-    margin:48,
-    dots:true,
-    nav: false,
-    items: 3,
-    smartSpeed: 1000,
-    autoplay:true,
-    autoplayTimeout:5000,
-    autoplayHoverPause:true,
-    responsive:{
-        0:{
-            items:1
-        },
-        600:{
-            items:2
-        },
-        1000:{
-            items: 2
-        }
-    }
-})
+
 
 
 // autoplayHoverPause, pause auto play on hover 

@@ -14,6 +14,8 @@ import {
 const uploadForm = document.getElementById("upload-form");
 const imageUploader = document.getElementById("photo");
 const statusMessage = document.getElementById('statusMessage');
+const submitBtn = document.getElementById("submitBtn");
+
 
 
 // Your Firebase config (replace with your own values)
@@ -140,8 +142,17 @@ const timestamp = Date.now();
 uploadForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    // uploading
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Uploading...."
+
+
     // Check authentication
     const user = auth.currentUser
+
+    
+
+
     if (!user) {
         showStatusMessage("Please log in to upload images", "error")
         return
@@ -192,17 +203,23 @@ uploadForm.addEventListener("submit", async (e) => {
             
 
             // console.log("About to save to Firestore...");
+            // console.log("Firestore save completed");
             // await addDoc(collection(db, "uploadsdb"), {
             //     title, url, createdAt: new Date()
             // });
 
+            await addDoc(collection(db, "images"), {
+                title, 
+                url, 
+                userId: user.uid,
+                createdAt: new Date()
+            })
 
             localStorage.setItem('uploadedImage', JSON.stringify(imageData));
 
             showStatusMessage('Image uploaded successfully!', 'success');
 
             
-            console.log("Firestore save completed");
 
             uploadForm.reset();
             console.log("Form reset completed");
@@ -220,7 +237,11 @@ uploadForm.addEventListener("submit", async (e) => {
 
     } catch (error) {
         showStatusMessage(`Upload failed: ${error.message}`, `error`);
-        console.error(error);
+        console.error(`Upload error: ${error.message}`);
+        if(submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Submit";
+        }
     }
 });
 
