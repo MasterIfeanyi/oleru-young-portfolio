@@ -8,7 +8,8 @@ const firebaseConfig = {
     apiKey: "AIzaSyAYrgz9-LLhatfGSeP7iRJsFz1AVF5onpI",
     authDomain: "oleru-young.firebaseapp.com",
     projectId: "oleru-young",
-    storageBucket: "oleru-young.appspot.com",
+    // storageBucket: "oleru-young.appspot.com",
+    storageBucket: "oleru-young.firebasestorage.app",
     messagingSenderId: "416968907489",
     appId: "1:416968907489:web:38b922f619fe2b003075a0"
 };
@@ -18,25 +19,46 @@ const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
 
+// Function to initialize Owl Carousel
+function initializeTechCarousel() {
+    // Destroy existing carousel if it exists
+    if (window.$ && $('#tech-carousel').hasClass('owl-carousel')) {
+        $('#tech-carousel').trigger('destroy.owl.carousel');
+        $('#tech-carousel').removeClass('owl-carousel owl-theme');
+    }
+
+    // Initialize new carousel
+    $('#tech-carousel').owlCarousel({
+        loop: true,
+        margin: 48,
+        dots: true,
+        nav: false,
+        items: 1,
+        smartSpeed: 1000,
+        autoplay: true,
+        autoplayTimeout: 5000,
+        autoplayHoverPause: true
+    });
+}
+
+
 async function loadImagesToCarousel() {
     const uploadsRef = ref(storage, 'uploads/');
     const carousel = document.getElementById('tech-carousel');
-    carousel.innerHTML = ''; // Clear existing items
+    carousel.innerHTML = `` // Clear existing items
 
-
-    
 
 
     try {
+
         const res = await listAll(uploadsRef);
 
         if (res.items.length === 0) {
             console.warn('No images found in uploads folder');
-            carousel.innerHTML = '<p>No images available</p>';
+            carousel.innerHTML = '<div class="two-col-grid"><div class="img-div"><p>No images available</p></div></div>';
+            initializeTechCarousel();
             return;
         }
-
-
 
         for (const itemRef of res.items) {
             const url = await getDownloadURL(itemRef);
@@ -44,22 +66,6 @@ async function loadImagesToCarousel() {
             div.className = 'two-col-grid';
             div.innerHTML = `<div class="img-div"><img src="${url}" /></div>`;
             carousel.appendChild(div);
-        }
-
-        // Re-initialize Owl Carousel if needed
-        if (window.$ && typeof $('#tech-carousel').owlCarousel === 'function') {
-            $('#tech-carousel').trigger('destroy.owl.carousel');
-            $('#tech-carousel').owlCarousel({
-                loop:true,
-                margin:48,
-                dots:true,
-                nav: false,
-                items: 1,
-                smartSpeed: 1000,
-                autoplay:true,
-                autoplayTimeout:5000,
-                autoplayHoverPause:true
-            });
         }
 
     } catch (error) {
@@ -97,7 +103,29 @@ $('#tech-carousel').owlCarousel({
 
 
 
-
+// portfolio
+$('#reviews-carousel').owlCarousel({
+    loop:true,
+    margin:48,
+    dots:true,
+    nav: false,
+    items: 3,
+    smartSpeed: 1000,
+    autoplay:true,
+    autoplayTimeout:5000,
+    autoplayHoverPause:true,
+    responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:2
+        },
+        1000:{
+            items: 2
+        }
+    }
+})
 
 
 // autoplayHoverPause, pause auto play on hover 
