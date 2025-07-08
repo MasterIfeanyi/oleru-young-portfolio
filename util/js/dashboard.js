@@ -148,6 +148,8 @@ function createImageRow(imageData, docId) {
     const imagesBody = document.getElementById('imagesBody');
     
     const row = document.createElement('tr');
+    row.className = 'each-row';
+
     
     // Image cell
     const imageCell = document.createElement('td');
