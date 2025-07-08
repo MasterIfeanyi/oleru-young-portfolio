@@ -79,6 +79,9 @@ async function loadImagesToCarousel() {
 loadImagesToCarousel();
 
 
+
+
+
 // portfolio
 $('#tech-carousel').owlCarousel({
     loop:true,

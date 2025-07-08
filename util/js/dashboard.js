@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebas
 import {getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 
 import {
-  getFirestore, collection, addDoc, getDocs
+  getFirestore, collection, addDoc, getDocs, query, orderBy
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
 import {
@@ -59,14 +59,14 @@ function hideStatusMessage() {
 
 
 // auth check
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth, async (user) => {
     if (!user) {
         // User is not logged in
         console.log("❌ User not authenticated, redirecting to login")
         window.location.href = "login.html"; // redirect to login page
     } else {
         console.log("Welcome:", user.email);
-
+        await loadAllImages();
         // Test Firestore connection
         testFirestoreConnection()
     }
@@ -107,7 +107,87 @@ async function testFirestoreConnection() {
   }
 }
 
+async function loadAllImages() {
 
+    const imagesBody = document.getElementById('imagesBody');
+
+    try {
+        imagesBody.innerHTML = '<tr><td colspan="4">Loading images...</td></tr>';
+
+        // const querySnapshot = await db.collection('images').orderBy('createdAt', 'desc').get();
+
+        const q = query(collection(db, 'images'), orderBy('createdAt', 'desc'));
+        const querySnapshot = await getDocs(q);
+                
+        if (querySnapshot.empty) {
+            imagesBody.innerHTML = '<tr><td colspan="4">No images found.</td></tr>';
+            return;
+        }
+
+        imagesBody.innerHTML = '';
+
+        console.log(querySnapshot)
+
+        querySnapshot.forEach((doc) => {
+            const imageData = doc.data();
+            console.log(imageData)
+            createImageRow(imageData, doc.id);
+        });
+
+        
+    } catch (error) {
+        console.error("Error loading images:", error);
+        document.getElementById('imagesBody').innerHTML = '<tr><td colspan="4">Error loading images</td></tr>';
+    }
+}
+
+
+
+// Function to create image row
+function createImageRow(imageData, docId) {
+    const imagesBody = document.getElementById('imagesBody');
+    
+    const row = document.createElement('tr');
+    
+    // Image cell
+    const imageCell = document.createElement('td');
+    imageCell.className = 'image-cell';
+    const img = document.createElement('img');
+    img.src = imageData.imageUrl;
+    img.alt = imageData.title;
+    imageCell.appendChild(img);
+    
+    // Title cell
+    const titleCell = document.createElement('td');
+    titleCell.textContent = imageData.title;
+    
+    // Date cell
+    const dateCell = document.createElement('td');
+    dateCell.className = 'status-cell';
+    if (imageData.createdAt) {
+        const date = imageData.createdAt.toDate();
+        dateCell.textContent = date.toLocaleDateString();
+    } else {
+        dateCell.textContent = 'Unknown date';
+    }
+    
+    // Actions cell
+    const actionsCell = document.createElement('td');
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'delete-btn';
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.onclick = () => deleteImage(docId, imageData.fileName);
+    actionsCell.appendChild(deleteBtn);
+    
+    // Append all cells to row
+    row.appendChild(imageCell);
+    row.appendChild(titleCell);
+    row.appendChild(dateCell);
+    row.appendChild(actionsCell);
+    
+    // Append row to table
+    imagesBody.appendChild(row);
+}
 
 
 
