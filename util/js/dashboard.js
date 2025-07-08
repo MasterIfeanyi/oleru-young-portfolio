@@ -153,7 +153,7 @@ function createImageRow(imageData, docId) {
     const imageCell = document.createElement('td');
     imageCell.className = 'image-cell';
     const img = document.createElement('img');
-    img.src = imageData.imageUrl;
+    img.src = imageData.url;
     img.alt = imageData.title;
     imageCell.appendChild(img);
     
