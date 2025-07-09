@@ -156,10 +156,22 @@ img {
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
 
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+} */
+
+
 tr {
-    margin-top: 50px;
+    padding-top: 50px;
 }
 
 tr:hover {
